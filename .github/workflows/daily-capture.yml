@@ -99,9 +99,13 @@ jobs:
 
           daily_path = Path(".daily") / f"{date}.md"
           daily_path.parent.mkdir(parents=True, exist_ok=True)
+          # JSON quoting safely escapes backslashes, quotes, and control characters.
+          quoted_member = json.dumps(member, ensure_ascii=False)
+          assert json.loads(quoted_member) == member
+
           daily_path.write_text(
               f"---\ndate: {date}\nday: {day}\nweek: {week}\n"
-              # JSON string quoting is valid YAML double-quoted scalar syntax and escapes each backslash.\n          quoted_member = json.dumps(member, ensure_ascii=False)\n          f"source: {source}\nteam_member: {quoted_member}\n---\n\n"
+              f"source: {source}\nteam_member: {quoted_member}\n---\n\n"
               f"# Daily Standup - {date}\n\n"
               f"## Ayer\n{yesterday}\n\n"
               f"## Hoy\n{today}\n\n"
@@ -118,8 +122,7 @@ jobs:
                   f"- **Bloqueadores:** {blockers}\n"
               )
 
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"source={source}\nmember={member.replace(chr(10), ' ')}\nfile_path={daily_path}\n")
+
           PY
 
       - name: Configure git
