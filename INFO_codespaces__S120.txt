@@ -22,3 +22,7 @@ https://github.com/settings/billing#usage
 More general:
 https://docs.github.com/es
 -----------------------------------------------
+
+Change name to daily-workflow-v2:
+Github no muestra el cambio en registros o commits
+-----------------------------------------------
